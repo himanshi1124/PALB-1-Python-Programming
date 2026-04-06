@@ -7,31 +7,22 @@
 #Geeky Challenge: Solve this problem in O(n) time complexity.
 
 class Solution:
-    # Function to partition the array around the range [a, b]
-    def threeWayPartition(self, array, a, b):
-        n = len(array)
+    def threeWayPartition(self, arr, a, b):
         low = 0
         mid = 0
-        high = n - 1
-        
+        high = len(arr) - 1
+
         while mid <= high:
-            if array[mid] < a:
-                # Case 1: Element is smaller than the range
-                # Swap current element with the 'low' pointer
-                array[low], array[mid] = array[mid], array[low]
+            if arr[mid] < a:
+                arr[low], arr[mid] = arr[mid], arr[low]
                 low += 1
                 mid += 1
-            elif array[mid] > b:
-                # Case 2: Element is greater than the range
-                # Swap current element with the 'high' pointer
-                # Do NOT increment mid yet, as the swapped element 
-                # from 'high' needs to be checked.
-                array[mid], array[high] = array[high], array[mid]
+
+            elif arr[mid] > b:
+                arr[mid], arr[high] = arr[high], arr[mid]
                 high -= 1
+
             else:
-                # Case 3: Element is within the range [a, b]
-                # Just move to the next element
                 mid += 1
-        
-        # Note: The problem usually expects the array to be modified in-place.
-        return array
+
+        return arr
