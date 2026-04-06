@@ -1,19 +1,28 @@
-#You are given a string s consisting only of the characters '(' and ')'. Your task is to
-#determine the minimum number of parentheses (either '(' or ')') that must be inserted at
-#any positions to make the string s a valid parentheses string.
-
+#Given an array arr[] denoting heights of n towers and a positive integer k.
+#For each tower, you must perform exactly one of the following operations exactly once.
+#Increase the height of the tower by k
+#Decrease the height of the tower by k
+#Find out the minimum possible difference between the height of the shortest and tallest towers
+#after you have modified each tower
 class Solution:
-    def minParentheses(self, s):
-        open_needed = 0
-        balance = 0
+    def getMinDiff(self, arr, k):
+        n = len(arr)
         
-        for ch in s:
-            if ch == '(':
-                balance += 1
-            else:  # ')'
-                if balance > 0:
-                    balance -= 1
-                else:
-                    open_needed += 1
+        if n == 1:
+            return 0
         
-        return open_needed + balance
+        arr.sort()
+        
+        ans = arr[n - 1] - arr[0]
+        
+        for i in range(n - 1):
+            
+            if arr[i + 1] - k < 0:
+                continue
+            
+            minimum = min(arr[0] + k, arr[i + 1] - k)
+            maximum = max(arr[i] + k, arr[n - 1] - k)
+            
+            ans = min(ans, maximum - minimum)
+        
+        return ans
