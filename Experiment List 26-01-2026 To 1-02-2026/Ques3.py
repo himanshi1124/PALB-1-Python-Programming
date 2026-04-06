@@ -1,21 +1,32 @@
-#Given a string s consisting of balanced parentheses, calculate the score of the string based on the following rules:
-#"O" has a score of 1.
-#"AB" has a score of A + B, where A and B are balanced parentheses strings.
-#'(A)" has a score of 2 × score(A), where A is a balanced parentheses string.
-
-
+#You are given an array arr[] of non-negative numbers. Each number tells you the maximum number of steps you can jump forward from that position.
 class Solution:
-    def scoreOfParentheses(self, s):
-        stack = [0]
+    def minJumps(self, arr):
+        n = len(arr)
         
-        for ch in s:
-            if ch == '(':
-                stack.append(0)
-            else:
-                val = stack.pop()
-                if val == 0:
-                    stack[-1] += 1
-                else:
-                    stack[-1] += 2 * val
+        if n <= 1:
+            return 0
         
-        return stack[0]
+        if arr[0] == 0:
+            return -1
+        
+        jumps = 1
+        maxReach = arr[0]
+        steps = arr[0]
+        
+        for i in range(1, n):
+            
+            if i == n - 1:
+                return jumps
+            
+            maxReach = max(maxReach, i + arr[i])
+            steps -= 1
+            
+            if steps == 0:
+                jumps += 1
+                
+                if i >= maxReach:
+                    return -1
+                
+                steps = maxReach - i
+        
+        return -1
